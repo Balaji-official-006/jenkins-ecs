@@ -52,7 +52,7 @@ pipeline {
                     sh '''
                       aws ecs update-service \
                         --cluster jenkins-cluster \
-                        --service task-def-service-kge96shw \
+                        --service service-for-ecs \
                         --force-new-deployment
                     '''
                 }
