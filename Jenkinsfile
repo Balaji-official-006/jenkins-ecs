@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh '''
                   docker build -t $ECR_REPO:$IMAGE_TAG .
-                  docker tag $ECR_REPO:$IMAGE_TAG $ECR_REPO
+                  docker tag $ECR_REPO:$IMAGE_TAG
                 '''
             }
         }
@@ -41,7 +41,6 @@ pipeline {
             steps {
                 sh '''
                   docker push $ECR_REPO:$IMAGE_TAG
-                  docker push $ECR_REPO:latest
                 '''
             }
         }
@@ -51,8 +50,8 @@ pipeline {
                 withAWS(credentials: 'aws-creds', region: AWS_REGION) {
                     sh '''
                       aws ecs update-service \
-                        --cluster my-ecs-cluster \
-                        --service my-ecs-service \
+                        --cluster jenkins-cluster \
+                        --service task-def-service-kge96shw \
                         --force-new-deployment
                     '''
                 }
