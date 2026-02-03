@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_REGION = "us-east-1"
-        ECR_REPO = "017540984476.dkr.ecr.us-east-1.amazonaws.com/jenkins-ecs-app"
+        ECR_REPO  = "017540984476.dkr.ecr.us-east-1.amazonaws.com/jenkins-ecs-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh '''
                   docker build -t $ECR_REPO:$IMAGE_TAG .
-                  docker tag $ECR_REPO:$IMAGE_TAG
+                  docker tag $ECR_REPO:$IMAGE_TAG $ECR_REPO:latest
                 '''
             }
         }
@@ -41,6 +41,7 @@ pipeline {
             steps {
                 sh '''
                   docker push $ECR_REPO:$IMAGE_TAG
+                  docker push $ECR_REPO:latest
                 '''
             }
         }
